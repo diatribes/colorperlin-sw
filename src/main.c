@@ -35,14 +35,19 @@ void draw_noise (double time)
             value = 0;
             double d1 = dist(x + t, y, W, H) / 17.0;
             double d2 = dist(x, y + t * 2.0, W / 2.0, H / 2.0) / 14.0;
-            double d3 = dist(x, y + t * 1.0, W * 2, H * 2) / 13.0;
+            double d3 = dist(y + t, x * 1.0, W * 2, H * 2) / 13.0;
             double d4 = dist(x + t, y, 0, 0) / 12.0;
 
             value += (sin(d1) + sin(d2) + sin(d3) + sin(d4));
 
             Color noise_color = noise_data[y * W + x];
             float xoffs = (sin(t / 100.0f + sin(t / 177.0))*W*2.0);
-            Color c = ColorFromHSV(CLAMP(value, 90.0, 180.0), 1.0, 1.0);
+
+            float h = CLAMP(value * 180.0, 90.0, 180.0);
+            float s = CLAMP(value, .3, .4);
+            float v = 1.0;
+            Color c = ColorFromHSV(h, s, v);
+
             c.r += dist(x + xoffs, c.r, noise_color.r, noise_color.r * 3.0);
             c.g += dist(x - xoffs, y + (sin(t / 100.0f)*H), noise_color.g, noise_color.g * 4.0);
             c.b += dist(x + xoffs, c.b, noise_color.b, noise_color.b * 8.0);
