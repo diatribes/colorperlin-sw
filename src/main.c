@@ -91,7 +91,7 @@ void main_loop_body()
 
 int main(int argc, char * argv[])
 {
-    InitWindow(W, H, "software plasma");
+    InitWindow(W, H, "Perlin Colors");
 
     Image img = {
         .width = W,
