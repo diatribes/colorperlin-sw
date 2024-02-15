@@ -28,9 +28,7 @@ void draw_noise (double time)
 {
     double value = 0;
     double t = 100 + time * 20.0;
-    static long long frame = 0;
 
-    noise_data = LoadImageColors(noise_image);
     for(int y = 0; y < H; y++) {
         for(int x = 0; x < W; x++) {
 
@@ -58,8 +56,6 @@ void draw_noise (double time)
             cpu_data[y * W + x] = (Color) { c.r, c.g, c.b, a};
         }
     }
-    UnloadImageColors(noise_data);
-    frame++;
 }
 
 void main_loop_body()
@@ -104,6 +100,7 @@ int main(int argc, char * argv[])
     UnloadImage(img);
 
     noise_image = GenImagePerlinNoise(W, H, 0, 0, 1.0);
+    noise_data = LoadImageColors(noise_image);
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(main_loop_body, 120, 1);
@@ -117,6 +114,7 @@ int main(int argc, char * argv[])
     }
     EnableCursor();
 #endif
+    UnloadImageColors(noise_data);
     UnloadImage(noise_image);
 
     CloseWindow();
